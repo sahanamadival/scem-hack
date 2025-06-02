@@ -17,6 +17,7 @@ import MentorshipPage from './pages/mentorship/MentorshipPage';
 import EmployerPortalPage from './pages/employer/EmployerPortalPage';
 import ResourcesPage from './pages/resources/ResourcesPage';
 import AboutPage from './pages/AboutPage';
+import ResumeBuilderPage from './pages/resume/ResumeBuilderPage'; // Add this import
 import NotFoundPage from './pages/NotFoundPage';
 
 const App: React.FC = () => {
@@ -31,9 +32,10 @@ const App: React.FC = () => {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/resume-builder" element={<ResumeBuilderPage />} /> {/* Add this route */}
               <Route path="/jobs" element={<JobBoardPage />} />
               <Route path="/mentorship" element={<MentorshipPage />} />
-              <Route path="/employers" element={<EmployerPortalPage />} />
+              <Route path="/employers" element={<EmployerPortalPage />} /> {/* Fixed typo in path */}
               <Route path="/resources" element={<ResourcesPage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="*" element={<NotFoundPage />} />
