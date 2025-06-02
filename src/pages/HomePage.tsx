@@ -1,9 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Search, Users, Briefcase, BookOpen } from 'lucide-react';
+import { User } from 'lucide-react';
+import { ArrowRight, Search, Users, Briefcase, HelpCircle } from 'lucide-react'; // Added HelpCircle
 import HeroImage from '../components/common/HeroImage';
 
 const HomePage: React.FC = () => {
+  const isVeteranLoggedIn = true; // Replace with real auth check later
+
   return (
     <div className="animate-fade-in">
       {/* Hero Section */}
@@ -16,14 +19,24 @@ const HomePage: React.FC = () => {
           <p className="mt-6 text-xl md:text-2xl text-white max-w-3xl drop-shadow-lg">
             Connecting veterans with opportunities, mentors, and resources for successful career transitions.
           </p>
-          <div className="mt-10 flex flex-col sm:flex-row gap-4">
-            <Link to="/register" className="btn bg-gold text-navy hover:bg-gold/90 focus:ring-gold">
-              Create Your Profile
-            </Link>
-            <Link to="/jobs" className="btn bg-white text-navy hover:bg-gray-100 focus:ring-white">
-              Explore Opportunities
-            </Link>
-          </div>
+        <div className="mt-10 flex flex-col sm:flex-row gap-4">
+  {isVeteranLoggedIn ? (
+    <Link to="/account" className="btn bg-white text-navy hover:bg-gray-100 focus:ring-white flex items-center gap-2">
+      <User size={20} /> My Account
+    </Link>
+  ) : (
+    <>
+      <Link to="/register" className="btn bg-gold text-navy hover:bg-gold/90 focus:ring-gold">
+        Create Your Profile
+      </Link>
+      <Link to="/jobs" className="btn bg-white text-navy hover:bg-gray-100 focus:ring-white">
+        Explore Opportunities
+      </Link>
+    </>
+  )}
+</div>
+ 
+
         </div>
       </section>
 
@@ -104,41 +117,15 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Resources Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-navy">Resources For Your Journey</h2>
-            <p className="mt-4 text-xl text-gray-600 max-w-3xl mx-auto">
-              Access guides, training materials, and tools to help with your transition.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {resources.map((resource, index) => (
-              <div 
-                key={index}
-                className="card flex flex-col h-full animate-slide-up" 
-                style={{ animationDelay: `${0.1 * index}s` }}
-              >
-                <div className="p-2 bg-light-blue rounded-full w-12 h-12 flex items-center justify-center mb-4">
-                  <BookOpen size={24} className="text-navy" />
-                </div>
-                <h3 className="text-xl font-bold mb-2">{resource.title}</h3>
-                <p className="text-gray-600 mb-6 flex-grow">{resource.description}</p>
-                <Link to={resource.link} className="mt-auto flex items-center text-navy font-medium hover:text-navy/80">
-                  View Resource <ArrowRight size={16} className="ml-2" />
-                </Link>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-12 text-center">
-            <Link to="/resources" className="btn btn-primary">
-              View All Resources
-            </Link>
-          </div>
-        </div>
+      {/* Resources Section replaced */}
+      <section className="py-32 bg-gray-50 flex flex-col items-center justify-center text-center">
+        <HelpCircle size={64} className="text-navy animate-bounce mb-8" />
+        <button
+          onClick={() => window.location.href = '/jobs'}
+          className="btn bg-gold text-navy hover:bg-gold/90 focus:ring-gold px-8 py-3 text-lg font-medium"
+        >
+          Find Job
+        </button>
       </section>
 
       {/* CTA Section */}
@@ -161,38 +148,5 @@ const HomePage: React.FC = () => {
     </div>
   );
 };
-
-const resources = [
-  {
-    title: 'Resume Builder',
-    description: 'Create a civilian-friendly resume that highlights your transferable skills and military achievements.',
-    link: '/resources/resume-builder',
-  },
-  {
-    title: 'Interview Preparation',
-    description: 'Practice answering common interview questions and learn how to discuss your military experience.',
-    link: '/resources/interview-prep',
-  },
-  {
-    title: 'Skills Assessment',
-    description: 'Identify your strongest skills and learn how they translate to high-demand civilian jobs.',
-    link: '/resources/skills-assessment',
-  },
-  {
-    title: 'GI Bill Benefits Guide',
-    description: 'Understand how to use your GI Bill benefits for education and training programs.',
-    link: '/resources/gi-bill-guide',
-  },
-  {
-    title: 'Networking Strategies',
-    description: 'Build a professional network and leverage it for job opportunities and career advancement.',
-    link: '/resources/networking',
-  },
-  {
-    title: 'Transition Assistance',
-    description: 'Access resources from the Transition Assistance Program (TAP) and other government initiatives.',
-    link: '/resources/transition-assistance',
-  },
-];
 
 export default HomePage;

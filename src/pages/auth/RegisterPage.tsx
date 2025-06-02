@@ -5,22 +5,34 @@ import { Shield, UserPlus } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 interface RegisterFormData {
-  name: string;
+  serviceId?: string;
+  name?: string;
   email: string;
   password: string;
   confirmPassword: string;
-  role: 'veteran' | 'employer' | 'mentor';
+  role: 'veteran' | 'company' | 'mentor';
 }
 
 const RegisterPage: React.FC = () => {
-  const { register, isLoading } = useAuth();
-  const { register: registerForm, handleSubmit, watch, formState: { errors } } = useForm<RegisterFormData>();
-  const [role, setRole] = useState<'veteran' | 'employer' | 'mentor'>('veteran');
+  const { register: authRegister, isLoading } = useAuth();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<RegisterFormData>({
+    defaultValues: { role: 'veteran' },
+  });
+  const [role, setRole] = useState<'veteran' | 'company' | 'mentor'>('veteran');
 
   const password = watch('password');
 
   const onSubmit = async (data: RegisterFormData) => {
-    await register(data.name, data.email, data.password, data.role);
+    if (role === 'veteran') {
+      await authRegister(data.serviceId || '', data.email, data.password, data.role);
+    } else {
+      await authRegister(data.name || '', data.email, data.password, data.role);
+    }
   };
 
   return (
@@ -29,30 +41,34 @@ const RegisterPage: React.FC = () => {
         <div className="flex flex-col items-center">
           <Shield size={48} className="text-navy mb-4" />
           <h2 className="text-center text-3xl font-bold text-navy">Create your account</h2>
-          <p className="mt-2 text-center text-gray-600">
-            Join VetCareers to start your career transition
-          </p>
+          <p className="mt-2 text-center text-gray-600">Join VetCareers to start your career transition</p>
         </div>
-        
+
         <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-              Full name
+            <label
+              htmlFor={role === 'veteran' ? 'serviceId' : 'name'}
+              className="block text-sm font-medium text-gray-700"
+            >
+              {role === 'veteran' ? 'Service ID' : 'Full name'}
             </label>
             <input
-              id="name"
+              id={role === 'veteran' ? 'serviceId' : 'name'}
               type="text"
-              {...registerForm('name', {
-                required: 'Name is required',
+              {...register(role === 'veteran' ? 'serviceId' : 'name', {
+                required: role === 'veteran' ? 'Service ID is required' : 'Name is required',
               })}
               className="form-input mt-1"
-              placeholder="John Doe"
+              placeholder={role === 'veteran' ? 'Enter your service ID' : 'John Doe'}
             />
-            {errors.name && (
-              <p className="mt-1 text-sm text-red">{errors.name.message}</p>
+            {role === 'veteran' && errors.serviceId && (
+              <p className="mt-1 text-sm text-red-500">{errors.serviceId.message}</p>
+            )}
+            {(role === 'company' || role === 'mentor') && errors.name && (
+              <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>
             )}
           </div>
-          
+
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
               Email address
@@ -60,7 +76,7 @@ const RegisterPage: React.FC = () => {
             <input
               id="email"
               type="email"
-              {...registerForm('email', {
+              {...register('email', {
                 required: 'Email is required',
                 pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
@@ -70,11 +86,9 @@ const RegisterPage: React.FC = () => {
               className="form-input mt-1"
               placeholder="you@example.com"
             />
-            {errors.email && (
-              <p className="mt-1 text-sm text-red">{errors.email.message}</p>
-            )}
+            {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>}
           </div>
-          
+
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
               Password
@@ -82,7 +96,7 @@ const RegisterPage: React.FC = () => {
             <input
               id="password"
               type="password"
-              {...registerForm('password', {
+              {...register('password', {
                 required: 'Password is required',
                 minLength: {
                   value: 8,
@@ -92,11 +106,9 @@ const RegisterPage: React.FC = () => {
               className="form-input mt-1"
               placeholder="••••••••"
             />
-            {errors.password && (
-              <p className="mt-1 text-sm text-red">{errors.password.message}</p>
-            )}
+            {errors.password && <p className="mt-1 text-sm text-red-500">{errors.password.message}</p>}
           </div>
-          
+
           <div>
             <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
               Confirm password
@@ -104,80 +116,43 @@ const RegisterPage: React.FC = () => {
             <input
               id="confirmPassword"
               type="password"
-              {...registerForm('confirmPassword', {
+              {...register('confirmPassword', {
                 required: 'Please confirm your password',
-                validate: value => value === password || 'Passwords do not match',
+                validate: (value) => value === password || 'Passwords do not match',
               })}
               className="form-input mt-1"
               placeholder="••••••••"
             />
             {errors.confirmPassword && (
-              <p className="mt-1 text-sm text-red">{errors.confirmPassword.message}</p>
+              <p className="mt-1 text-sm text-red-500">{errors.confirmPassword.message}</p>
             )}
           </div>
-          
+
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              I am a:
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">I am a:</label>
             <div className="grid grid-cols-3 gap-4">
-              <div
-                className={`py-3 px-4 border rounded-md text-center cursor-pointer transition-colors ${
-                  role === 'veteran' 
-                    ? 'border-navy bg-light-blue text-navy' 
-                    : 'border-gray-300 text-gray-700 hover:bg-gray-50'
-                }`}
-                onClick={() => setRole('veteran')}
-              >
-                <input
-                  type="radio"
-                  {...registerForm('role')}
-                  value="veteran"
-                  className="sr-only"
-                  checked={role === 'veteran'}
-                  onChange={() => setRole('veteran')}
-                />
-                Veteran
-              </div>
-              <div
-                className={`py-3 px-4 border rounded-md text-center cursor-pointer transition-colors ${
-                  role === 'employer' 
-                    ? 'border-navy bg-light-blue text-navy' 
-                    : 'border-gray-300 text-gray-700 hover:bg-gray-50'
-                }`}
-                onClick={() => setRole('employer')}
-              >
-                <input
-                  type="radio"
-                  {...registerForm('role')}
-                  value="employer"
-                  className="sr-only"
-                  checked={role === 'employer'}
-                  onChange={() => setRole('employer')}
-                />
-                Employer
-              </div>
-              <div
-                className={`py-3 px-4 border rounded-md text-center cursor-pointer transition-colors ${
-                  role === 'mentor' 
-                    ? 'border-navy bg-light-blue text-navy' 
-                    : 'border-gray-300 text-gray-700 hover:bg-gray-50'
-                }`}
-                onClick={() => setRole('mentor')}
-              >
-                <input
-                  type="radio"
-                  {...registerForm('role')}
-                  value="mentor"
-                  className="sr-only"
-                  checked={role === 'mentor'}
-                  onChange={() => setRole('mentor')}
-                />
-                Mentor
-              </div>
+              {(['veteran', 'company', 'mentor'] as const).map((r) => (
+                <div
+                  key={r}
+                  className={`py-3 px-4 border rounded-md text-center cursor-pointer transition-colors ${
+                    role === r ? 'border-navy bg-light-blue text-navy' : 'border-gray-300 text-gray-700 hover:bg-gray-50'
+                  }`}
+                  onClick={() => setRole(r)}
+                >
+                  <input
+                    type="radio"
+                    {...register('role')}
+                    value={r}
+                    className="sr-only"
+                    checked={role === r}
+                    onChange={() => setRole(r)}
+                  />
+                  {r.charAt(0).toUpperCase() + r.slice(1)}
+                </div>
+              ))}
             </div>
           </div>
-          
+
           <button
             type="submit"
             disabled={isLoading}
@@ -190,7 +165,7 @@ const RegisterPage: React.FC = () => {
             )}
             Create account
           </button>
-          
+
           <div className="text-center mt-4">
             <p className="text-gray-600">
               Already have an account?{' '}

@@ -5,7 +5,7 @@ import { Shield, LogIn } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 interface LoginFormData {
-  email: string;
+  serviceId: string;
   password: string;
 }
 
@@ -15,7 +15,10 @@ const LoginPage: React.FC = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>();
 
   const onSubmit = async (data: LoginFormData) => {
-    await login(data.email, data.password);
+    const success = await login(data.serviceId, data.password);
+    if (success) {
+      navigate('/dashboard'); // Or your intended route
+    }
   };
 
   return (
@@ -31,24 +34,25 @@ const LoginPage: React.FC = () => {
         
         <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-              Email address
+            <label htmlFor="serviceId" className="block text-sm font-medium text-gray-700">
+              Service ID
             </label>
             <input
-              id="email"
-              type="email"
-              {...register('email', {
-                required: 'Email is required',
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: 'Invalid email address',
+              id="serviceId"
+              type="text"
+              {...register('serviceId', {
+                required: 'Service ID is required',
+                minLength: {
+                  value: 6,
+                  message: 'Service ID must be at least 6 characters',
                 },
               })}
               className="form-input mt-1"
-              placeholder="you@example.com"
+              placeholder="Enter your Service ID"
+              aria-invalid={!!errors.serviceId}
             />
-            {errors.email && (
-              <p className="mt-1 text-sm text-red">{errors.email.message}</p>
+            {errors.serviceId && (
+              <p className="mt-1 text-sm text-red-500">{errors.serviceId.message}</p>
             )}
           </div>
           
@@ -68,9 +72,10 @@ const LoginPage: React.FC = () => {
               })}
               className="form-input mt-1"
               placeholder="••••••••"
+              aria-invalid={!!errors.password}
             />
             {errors.password && (
-              <p className="mt-1 text-sm text-red">{errors.password.message}</p>
+              <p className="mt-1 text-sm text-red-500">{errors.password.message}</p>
             )}
           </div>
           
@@ -118,7 +123,7 @@ const LoginPage: React.FC = () => {
           <div className="mt-6 p-4 bg-light-blue rounded-md">
             <p className="text-sm text-navy">
               <strong>Demo Account:</strong><br />
-              Email: veteran@example.com<br />
+              Service ID: VET123456<br />
               Password: password
             </p>
           </div>
