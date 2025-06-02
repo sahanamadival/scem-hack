@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-navy: #0A2342;
+  --color-army-green: #4A5043;
+  --color-gold: #FFD700;
+  --color-light-blue: #EBF2FA;
+  --color-red: #CF1259;
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+  
+  body {
+    @apply font-sans text-gray-800 antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold;
+  }
+  
+  h1 {
+    @apply text-4xl leading-tight md:text-5xl md:leading-tight;
+  }
+  
+  h2 {
+    @apply text-3xl leading-snug md:text-4xl md:leading-snug;
+  }
+  
+  h3 {
+    @apply text-2xl leading-normal md:text-3xl md:leading-normal;
+  }
+  
+  h4 {
+    @apply text-xl leading-normal md:text-2xl md:leading-normal;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-200;
+  }
+  
+  .btn-primary {
+    @apply bg-navy text-white hover:bg-navy/90 focus:ring-navy;
+  }
+  
+  .btn-secondary {
+    @apply bg-army-green text-white hover:bg-army-green/90 focus:ring-army-green;
+  }
+  
+  .btn-accent {
+    @apply bg-gold text-navy hover:bg-gold/90 focus:ring-gold;
+  }
+  
+  .btn-outline {
+    @apply border-2 border-navy text-navy bg-transparent hover:bg-navy hover:text-white;
+  }
+  
+  .card {
+    @apply bg-white rounded-lg shadow-md p-6 transition-shadow duration-200 hover:shadow-lg;
+  }
+  
+  .form-input {
+    @apply w-full rounded-md border-gray-300 shadow-sm focus:border-navy focus:ring focus:ring-navy focus:ring-opacity-50;
+  }
+  
+  .nav-link {
+    @apply text-gray-700 hover:text-navy transition-colors duration-200;
+  }
+  
+  .nav-link-active {
+    @apply text-navy font-medium;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
