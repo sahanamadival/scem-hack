@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
+import SkillTranslation from './pages/Skilltranslation';
 
 // Layout components
 import Navbar from './components/layout/Navbar';
@@ -18,6 +19,7 @@ import EmployerPortalPage from './pages/employer/EmployerPortalPage';
 import ResourcesPage from './pages/resources/ResourcesPage';
 import AboutPage from './pages/AboutPage';
 import NotFoundPage from './pages/NotFoundPage';
+import JobMatching from './pages/veteran/jobMatching';
 
 const App: React.FC = () => {
   return (
@@ -33,10 +35,12 @@ const App: React.FC = () => {
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/jobs" element={<JobBoardPage />} />
               <Route path="/mentorship" element={<MentorshipPage />} />
+              <Route path="/skill-translation" element={<SkillTranslation />} />
               <Route path="/employers" element={<EmployerPortalPage />} />
               <Route path="/resources" element={<ResourcesPage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="*" element={<NotFoundPage />} />
+              <Route path="/job-matching" element={<JobMatching />} />
             </Routes>
           </main>
           <Footer />

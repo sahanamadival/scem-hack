@@ -59,7 +59,7 @@ const HomePage: React.FC = () => {
               <p className="text-gray-600 mb-6">
                 Our AI tools translate your military skills and experience into civilian terms that employers understand and value.
               </p>
-              <Link to="/resources/skill-translator" className="mt-auto flex items-center text-navy font-medium hover:text-navy/80">
+              <Link to="/skill-translation" className="mt-auto flex items-center text-navy font-medium hover:text-navy/80">
                 Translate Your Skills <ArrowRight size={16} className="ml-2" />
               </Link>
             </div>
