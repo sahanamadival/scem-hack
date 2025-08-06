@@ -104,3 +104,21 @@
     transform: translateY(0);
   }
 }
+/* For the dropdown z-index */
+.z-50 {
+  z-index: 50;
+}
+
+/* For smooth transitions */
+.transition-all {
+  transition: all 0.2s ease;
+}
+
+/* For the navy color scheme */
+.bg-navy {
+  background-color: #001f3f;
+}
+
+.hover\:bg-blue-700:hover {
+  background-color: #1a365d;
+}
