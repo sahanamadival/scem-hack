@@ -20,7 +20,7 @@ import ResourcesPage from './pages/resources/ResourcesPage';
 import AboutPage from './pages/AboutPage';
 import ResumeBuilderPage from './pages/resume/ResumeBuilderPage'; // Add this import
 import NotFoundPage from './pages/NotFoundPage';
-import JobMatching from './pages/veteran/jobMatching';
+import JobMatching from './pages/veteran/JobMatching';
 
 const App: React.FC = () => {
   return (
@@ -36,13 +36,10 @@ const App: React.FC = () => {
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/resume-builder" element={<ResumeBuilderPage />} /> {/* Add this route */}
               <Route path="/jobs" element={<JobBoardPage />} />
-              <Route path="/mentorship" element={<MentorshipPage />} />
-<<<<<<< HEAD
-              <Route path="/skill-translation" element={<SkillTranslation />} />
-              <Route path="/employers" element={<EmployerPortalPage />} />
-=======
-              <Route path="/employers" element={<EmployerPortalPage />} /> {/* Fixed typo in path */}
->>>>>>> 0c5fbf8d60bb9a6f6c6bb631909417886f73f224
+              <Route path="/mentorship" element={<MentorshipPage />} /><Route path="/mentorship" element={<MentorshipPage />} />
+<Route path="/skill-translation" element={<SkillTranslation />} />
+<Route path="/employers" element={<EmployerPortalPage />} />
+
               <Route path="/resources" element={<ResourcesPage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="*" element={<NotFoundPage />} />

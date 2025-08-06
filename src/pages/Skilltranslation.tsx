@@ -84,11 +84,7 @@ const SkillTranslation = () => {
     try {
       const jobs = await fetchJobsBySkill(militarySkill);
       if (jobs.length === 0) {
-<<<<<<< HEAD
-        setError(`No jobs found for skill "${militarySkill}". Try: leadership, logistics, technical, strategy.`);
-=======
-        setError(No jobs found for skill "${militarySkill}". Try: leadership, logistics, technical, strategy.);
->>>>>>> 0c5fbf8d60bb9a6f6c6bb631909417886f73f224
+  setError(`No jobs found for skill "${militarySkill}". Try: leadership, logistics, technical, strategy.`);
         setLoading(false);
         return;
       }
@@ -148,17 +144,10 @@ const SkillTranslation = () => {
                 interval={0}
                 height={80}
               />
-              <YAxis
-<<<<<<< HEAD
-                tickFormatter={(value) => `₹${(value / 100000).toFixed(1)}L`}
-              />
-              <Tooltip formatter={(value: number) => `₹${value.toLocaleString()}`} />
-=======
-                tickFormatter={(value) => ₹${(value / 100000).toFixed(1)}L}
-              />
-              <Tooltip formatter={(value: number) => ₹${value.toLocaleString()}} />
->>>>>>> 0c5fbf8d60bb9a6f6c6bb631909417886f73f224
-              <Bar dataKey="salary" fill="#3b82f6" />
+<YAxis tickFormatter={(value) => `₹${(value / 100000).toFixed(1)}L`} />
+<Tooltip formatter={(value: number) => `₹${value.toLocaleString()}`} />
+<Bar dataKey="salary" fill="#3b82f6" />
+
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -166,9 +155,4 @@ const SkillTranslation = () => {
     </div>
   );
 };
-
-<<<<<<< HEAD
 export default SkillTranslation;
-=======
-export default SkillTranslation;
->>>>>>> 0c5fbf8d60bb9a6f6c6bb631909417886f73f224

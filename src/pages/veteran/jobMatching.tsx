@@ -60,7 +60,8 @@ const JobMatching = () => {
     };
     setAppliedJobs([...appliedJobs, newApplication]);
     setShowApplicationForm(false);
-    setNotification(Successfully booked an interview with ${selectedJob.company});
+  setNotification("Successfully booked an interview with " + selectedJob.company);
+
     setApplicant({ name: '', place: '', age: '', email: '', phone: '' });
   };
 
